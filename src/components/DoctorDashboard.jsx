@@ -5,7 +5,8 @@ import html2pdf from 'html2pdf.js';
 import EReceipt from './EReceipt';
 import { 
   LayoutDashboard, Users as UsersIcon, Activity, FileText, Settings, Bell, Search, 
-  Calendar, CheckCircle, XCircle, Mic, Plus, FilePlus, ChevronLeft, Save, Printer
+  Calendar, CheckCircle, XCircle, Mic, Plus, FilePlus, ChevronLeft, Save, Printer,
+  Menu, X
 } from 'lucide-react';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer,
@@ -130,6 +131,7 @@ const DoctorDashboard = ({ user, onLogout }) => {
   const [isDictating, setIsDictating] = useState(false);
   const [isDictatingAdvice, setIsDictatingAdvice] = useState(false);
   const [dictationLang, setDictationLang] = useState('en-IN');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const today = new Date().toISOString().split('T')[0];
   const myAppointments = appointments.filter(a => a.doctorId === user.id && a.date === today);
@@ -219,32 +221,6 @@ const DoctorDashboard = ({ user, onLogout }) => {
         recognitionRef.current.stop();
       }
       
-      const finalPayload = symptoms.trim();
-      if (finalPayload.length > 10) {
-        try {
-          const res = await fetch('http://localhost:8000/parse-dictation', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: finalPayload })
-          });
-          const aiData = await res.json();
-          
-          if (aiData.diagnosis && aiData.diagnosis !== 'Not specified') setDiagnosis(aiData.diagnosis);
-          if (aiData.medications && Array.isArray(aiData.medications)) {
-            setMedications(prev => {
-              const newMeds = [...prev];
-              aiData.medications.forEach(aiMed => {
-                if (!newMeds.find(m => m.name.toLowerCase() === aiMed.name.toLowerCase())) {
-                  newMeds.push(aiMed);
-                }
-              });
-              return newMeds;
-            });
-          }
-        } catch (err) {
-          console.error("AI Parsing Failed: " + err.message);
-        }
-      }
       setIsDictating(false);
       return;
     }
@@ -421,13 +397,26 @@ const DoctorDashboard = ({ user, onLogout }) => {
   // --- Render Sub-Components ---
   
   const renderSidebar = () => (
-    <div style={{ width: '260px', backgroundColor: '#0f172a', color: '#94a3b8', display: 'flex', flexDirection: 'column', height: '100vh', flexShrink: 0 }}>
-      <div style={{ padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '12px', borderBottom: '1px solid #1e293b' }}>
-        <div style={{ width: 36, height: 36, backgroundColor: 'white', borderRadius: '8px', padding: '4px' }}>
-          <img src={logoUrl} alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+    <>
+      {/* Mobile Overlay */}
+      <div 
+        className={`mobile-overlay ${isMobileMenuOpen ? 'open' : ''}`} 
+        onClick={() => setIsMobileMenuOpen(false)}
+      />
+      
+      <div className={`mobile-sidebar ${isMobileMenuOpen ? 'open' : ''}`} style={{ width: '260px', backgroundColor: '#0f172a', color: '#94a3b8', display: 'flex', flexDirection: 'column', height: '100vh', flexShrink: 0 }}>
+        <div style={{ padding: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', borderBottom: '1px solid #1e293b' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ width: 36, height: 36, backgroundColor: 'white', borderRadius: '8px', padding: '4px' }}>
+              <img src={logoUrl} alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+            </div>
+            <h2 style={{ color: 'white', margin: 0, fontSize: '1.2rem', letterSpacing: '0.05em' }}>SANJEEVANI</h2>
+          </div>
+          {/* Mobile close button inside sidebar */}
+          <button className="hamburger-btn" onClick={() => setIsMobileMenuOpen(false)} style={{ color: '#94a3b8' }}>
+            <X size={24} />
+          </button>
         </div>
-        <h2 style={{ color: 'white', margin: 0, fontSize: '1.2rem', letterSpacing: '0.05em' }}>SANJEEVANI</h2>
-      </div>
       
       <div style={{ padding: '1.5rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
         <button onClick={() => setActiveModule('appointments')} className="sidebar-btn" style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', backgroundColor: activeModule === 'appointments' ? '#0284c7' : 'transparent', color: activeModule === 'appointments' ? 'white' : 'inherit', border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '0.95rem', fontWeight: 500, textAlign: 'left' }}>
@@ -445,39 +434,45 @@ const DoctorDashboard = ({ user, onLogout }) => {
       </div>
 
       {/* Removed old logout section */}
-    </div>
+      </div>
+    </>
   );
 
   const renderTopHeader = () => (
     <div style={{ height: '70px', background: 'white', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 2rem', flexShrink: 0 }}>
-      <div style={{ display: 'flex', alignItems: 'center', background: '#f1f5f9', padding: '8px 16px', borderRadius: '8px', width: '300px' }}>
-        <Search size={18} color="#94a3b8" />
-        <input 
-          type="text" 
-          placeholder="Search by patient name..." 
-          style={{ border: 'none', background: 'transparent', outline: 'none', marginLeft: '8px', width: '100%', fontSize: '0.9rem' }}
-          value={searchQuery}
-          onChange={e => setSearchQuery(e.target.value)}
-        />
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <button className="hamburger-btn" onClick={() => setIsMobileMenuOpen(true)}>
+          <Menu size={24} color="#0f172a" />
+        </button>
+        <div className="desktop-only" style={{ display: 'flex', alignItems: 'center', background: '#f1f5f9', padding: '8px 16px', borderRadius: '8px', width: '300px' }}>
+          <Search size={18} color="#94a3b8" />
+          <input 
+            type="text" 
+            placeholder="Search by patient name..." 
+            style={{ border: 'none', background: 'transparent', outline: 'none', marginLeft: '8px', width: '100%', fontSize: '0.9rem' }}
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+          />
+        </div>
       </div>
       
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-        <div style={{ display: 'flex', background: '#f1f5f9', padding: '4px', borderRadius: '8px' }}>
+        <div className="header-actions" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+        <div className="desktop-only" style={{ display: 'flex', background: '#f1f5f9', padding: '4px', borderRadius: '8px' }}>
           <button onClick={() => setIsIPD(false)} style={{ padding: '6px 16px', border: 'none', borderRadius: '4px', background: !isIPD ? 'white' : 'transparent', color: !isIPD ? '#0f172a' : '#64748b', fontWeight: 600, cursor: 'pointer', boxShadow: !isIPD ? '0 2px 4px rgba(0,0,0,0.05)' : 'none' }}>OPD</button>
           <button onClick={() => setIsIPD(true)} style={{ padding: '6px 16px', border: 'none', borderRadius: '4px', background: isIPD ? 'white' : 'transparent', color: isIPD ? '#0f172a' : '#64748b', fontWeight: 600, cursor: 'pointer', boxShadow: isIPD ? '0 2px 4px rgba(0,0,0,0.05)' : 'none' }}>IPD</button>
         </div>
         
         <button onClick={() => alert('No new notifications')} style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}><Bell size={20} color="#64748b" /></button>
         
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', borderLeft: '1px solid #e2e8f0', paddingLeft: '1.5rem' }}>
-          <div style={{ textAlign: 'right' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', borderLeft: '1px solid #e2e8f0', paddingLeft: '1rem' }}>
+          <div className="desktop-only" style={{ textAlign: 'right' }}>
             <p style={{ margin: 0, fontWeight: 600, fontSize: '0.9rem', color: '#0f172a' }}>{user.name}</p>
             <p style={{ margin: 0, fontSize: '0.75rem', color: '#64748b' }}>Cardiologist</p>
           </div>
           <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#0284c7', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '1.1rem' }}>
             {user.name.charAt(0)}
           </div>
-          <button className="btn" onClick={onLogout} style={{ marginLeft: '12px', padding: '6px 16px', background: 'transparent', color: '#ef4444', border: '1px solid #fca5a5', borderRadius: '6px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 600 }}>Logout</button>
+          <button className="btn desktop-only" onClick={onLogout} style={{ marginLeft: '12px', padding: '6px 16px', background: 'transparent', color: '#ef4444', border: '1px solid #fca5a5', borderRadius: '6px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 600 }}>Logout</button>
         </div>
       </div>
     </div>
@@ -498,9 +493,9 @@ const DoctorDashboard = ({ user, onLogout }) => {
   const renderDashboardQueue = () => (
     <div style={{ animation: 'fadeIn 0.3s ease' }}>
       {/* Welcome Banner */}
-      <div style={{ background: 'linear-gradient(135deg, #0f172a 0%, #0284c7 100%)', borderRadius: '12px', padding: '2rem', color: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', boxShadow: '0 10px 25px rgba(2, 132, 199, 0.2)' }}>
-        <div>
-          <h1 style={{ margin: '0 0 0.5rem 0', fontSize: '2rem' }}>Welcome, Dr. {user.name.split(' ')[1] || user.name.split(' ')[0]}!</h1>
+      <div className="mobile-stack" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #0284c7 100%)', borderRadius: '12px', padding: '2rem', color: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', boxShadow: '0 10px 25px rgba(2, 132, 199, 0.2)' }}>
+        <div style={{ marginBottom: '1rem' }}>
+          <h1 style={{ margin: '0 0 0.5rem 0', fontSize: '1.8rem' }}>Welcome, Dr. {user.name.split(' ')[1] || user.name.split(' ')[0]}!</h1>
           <p style={{ margin: 0, color: '#bae6fd', fontSize: '1rem' }}>You have {waitingPatients.length} patients in the {isIPD ? 'IPD' : 'OPD'} queue today.</p>
         </div>
         <div style={{ display: 'flex', gap: '1rem' }}>
@@ -525,13 +520,15 @@ const DoctorDashboard = ({ user, onLogout }) => {
         </div>
 
         {/* Table Header */}
-        <div style={{ padding: '1rem 1.5rem', display: 'grid', gridTemplateColumns: '60px 2fr 1fr 1fr 1fr', background: '#f8fafc', borderBottom: '1px solid #e2e8f0', fontSize: '0.85rem', fontWeight: 600, color: '#64748b', textTransform: 'uppercase' }}>
-          <div>#</div>
-          <div>Patient Name</div>
-          <div>Contact</div>
-          <div>Visit Type</div>
-          <div style={{ textAlign: 'right' }}>Action</div>
-        </div>
+        <div className="table-responsive">
+          <div style={{ minWidth: '700px' }}>
+            <div style={{ padding: '1rem 1.5rem', display: 'grid', gridTemplateColumns: '60px 2fr 1fr 1fr 1fr', background: '#f8fafc', borderBottom: '1px solid #e2e8f0', fontSize: '0.85rem', fontWeight: 600, color: '#64748b', textTransform: 'uppercase' }}>
+              <div>#</div>
+              <div>Patient Name</div>
+              <div>Contact</div>
+              <div>Visit Type</div>
+              <div style={{ textAlign: 'right' }}>Action</div>
+            </div>
 
         {/* Table Body */}
         <div style={{ minHeight: '400px' }}>
@@ -563,8 +560,10 @@ const DoctorDashboard = ({ user, onLogout }) => {
               <p style={{ fontSize: '1.1rem', margin: 0 }}>No patients in this list.</p>
             </div>
           )}
+          </div>
         </div>
       </div>
+    </div>
     </div>
   );
 
@@ -590,7 +589,7 @@ const DoctorDashboard = ({ user, onLogout }) => {
         </div>
 
         {/* Two-Column Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: '1.5rem', alignItems: 'start' }}>
+        <div className="grid-responsive-2" style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: '1.5rem', alignItems: 'start' }}>
           
           {/* LEFT COLUMN: Vitals & Context */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -814,7 +813,7 @@ const DoctorDashboard = ({ user, onLogout }) => {
               </div>
             </div>
             
-            <div style={{ marginBottom: '30px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', background: '#f8fafc', padding: '15px', border: '1px solid #e2e8f0', borderRadius: '4px' }}>
+            <div className="grid-responsive-2" style={{ marginBottom: '30px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', background: '#f8fafc', padding: '15px', border: '1px solid #e2e8f0', borderRadius: '4px' }}>
               <div>
                 <p style={{ margin: '0 0 4px 0', fontSize: '11px', color: '#64748b', textTransform: 'uppercase', fontWeight: 'bold' }}>Patient Name</p>
                 <p style={{ margin: 0, fontSize: '15px', fontWeight: 'bold', color: '#0f172a' }}>{USERS.find(u => u.id === activeConsult?.patientId)?.name}</p>
@@ -833,7 +832,7 @@ const DoctorDashboard = ({ user, onLogout }) => {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px', marginBottom: '35px' }}>
+            <div className="grid-responsive-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px', marginBottom: '35px' }}>
               <div>
                 <h3 style={{ margin: '0 0 8px 0', fontSize: '13px', textTransform: 'uppercase', color: '#64748b', letterSpacing: '0.5px', borderBottom: '1px solid #cbd5e1', paddingBottom: '4px' }}>Vitals Recorded</h3>
                 <div style={{ display: 'flex', gap: '15px', fontSize: '13px' }}>
@@ -977,7 +976,7 @@ const DoctorDashboard = ({ user, onLogout }) => {
         <h2 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '10px' }}><Activity size={24} color="#0284c7" /> My Analytics Dashboard</h2>
         
         {/* KPI Cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem', marginBottom: '2rem' }}>
+        <div className="grid-responsive-3" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem', marginBottom: '2rem' }}>
           <div style={{ background: 'white', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
             <h3 style={{ color: '#64748b', fontSize: '0.9rem', marginTop: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Consultations Today</h3>
             <p style={{ fontSize: '2rem', fontWeight: 800, color: '#0f172a', margin: '0.5rem 0' }}>{displayConsultations}</p>
@@ -996,7 +995,7 @@ const DoctorDashboard = ({ user, onLogout }) => {
         </div>
 
         {/* Charts Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem' }}>
+        <div className="grid-responsive-2" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem' }}>
           
           {/* Main Trend Chart */}
           <div style={{ background: 'white', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
@@ -1065,7 +1064,7 @@ const DoctorDashboard = ({ user, onLogout }) => {
         </div>
 
         {/* Billing Summary Cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem', marginBottom: '2rem' }}>
+        <div className="grid-responsive-3" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem', marginBottom: '2rem' }}>
           <div style={{ background: 'white', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', borderLeft: '4px solid #10b981' }}>
             <p style={{ margin: '0 0 5px 0', fontSize: '0.85rem', color: '#64748b', textTransform: 'uppercase', fontWeight: 600 }}>Total Revenue (MTD)</p>
             <h3 style={{ margin: 0, fontSize: '1.8rem', color: '#0f172a' }}>₹{totalRevenue}</h3>
@@ -1132,7 +1131,7 @@ const DoctorDashboard = ({ user, onLogout }) => {
         
         {renderTopHeader()}
 
-        <div style={{ flex: 1, overflowY: 'auto', padding: '2rem' }}>
+        <div className="main-content-area" style={{ flex: 1, overflowY: 'auto', padding: '2rem' }}>
           {renderMainContent()}
         </div>
       </div>

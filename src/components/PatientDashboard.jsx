@@ -15,7 +15,7 @@ const PatientDashboard = ({ user, onLogout }) => {
     <div className="app-wrapper" style={{animation: 'fadeIn 0.3s ease'}}>
       
       {/* Enterprise Top Nav */}
-      <div className="top-nav">
+      <div className="top-nav mobile-stack" style={{ gap: '1rem', height: 'auto', padding: '1rem 2rem' }}>
         <div style={{display: 'flex', alignItems: 'center', gap: '15px'}}>
           <div style={{ width: 44, height: 44, backgroundColor: 'white', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
             <img src={logoUrl} alt="Sanjeevani Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
@@ -24,7 +24,7 @@ const PatientDashboard = ({ user, onLogout }) => {
           <span style={{color: '#64748b'}}>|</span>
           <span style={{fontWeight: 500, color: '#e2e8f0'}}>Patient Health Portal</span>
         </div>
-        <div style={{display: 'flex', alignItems: 'center', gap: '20px'}}>
+        <div className="mobile-stack" style={{display: 'flex', alignItems: 'center', gap: '20px'}}>
           <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end'}}>
             <span style={{fontWeight: 600, fontSize: '0.9rem'}}>{user.name}</span>
             <span style={{color: '#94a3b8', fontSize: '0.75rem'}}>Member ID: {user.id.toUpperCase()}</span>
@@ -40,7 +40,7 @@ const PatientDashboard = ({ user, onLogout }) => {
         </div>
 
         {/* Health Vitals Summary Widget */}
-        <div className="grid" style={{gridTemplateColumns: 'repeat(4, 1fr)', marginBottom: '2rem'}}>
+        <div className="grid grid-responsive-4" style={{gridTemplateColumns: 'repeat(4, 1fr)', marginBottom: '2rem'}}>
           <div className="card">
             <p style={{fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '0.5rem'}}>Blood Pressure</p>
             <h3 style={{margin: 0, fontSize: '1.5rem', color: 'var(--primary)'}}>120/80 <span style={{fontSize: '0.9rem', fontWeight: 400, color: 'var(--text-muted)'}}>mmHg</span></h3>
@@ -62,7 +62,7 @@ const PatientDashboard = ({ user, onLogout }) => {
           </div>
         </div>
 
-        <div className="grid" style={{gridTemplateColumns: selectedRecord ? '1fr' : '2fr 1fr'}}>
+        <div className="grid grid-responsive-2" style={{gridTemplateColumns: selectedRecord ? '1fr' : '2fr 1fr'}}>
           <div style={{display: 'flex', flexDirection: 'column', gap: '2rem'}}>
             
             {/* Upcoming Appointments */}
@@ -103,7 +103,7 @@ const PatientDashboard = ({ user, onLogout }) => {
 
               {!selectedRecord ? (
                 myRecords.length > 0 ? (
-                  <div style={{border: '1px solid var(--border)', borderRadius: '4px', overflow: 'hidden'}}>
+                  <div className="table-responsive" style={{border: '1px solid var(--border)', borderRadius: '4px', overflow: 'hidden'}}>
                     <table className="data-table" style={{margin: 0}}>
                       <thead>
                         <tr>

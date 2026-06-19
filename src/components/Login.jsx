@@ -195,9 +195,9 @@ const Login = ({ onLogin }) => {
         </div>
       )}
 
-      <div style={{ display: 'flex', minHeight: '100vh', width: '100vw', backgroundColor: '#f3f4f6' }}>
+      <div className="mobile-stack" style={{ display: 'flex', minHeight: '100vh', width: '100vw', backgroundColor: '#f3f4f6' }}>
       {/* Left Branding Panel (Light Theme) */}
-      <div style={{ 
+      <div className="desktop-only" style={{ 
         flex: 1, 
         background: 'linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 50%, #bae6fd 100%)', 
         display: 'flex', 

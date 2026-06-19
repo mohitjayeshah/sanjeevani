@@ -79,7 +79,7 @@ const ReceptionistDashboard = ({ user, onLogout }) => {
     <div className="app-wrapper theme-receptionist" style={{animation: 'fadeIn 0.3s ease'}}>
       
       {/* Enterprise Top Nav */}
-      <div className="top-nav">
+      <div className="top-nav mobile-stack" style={{ gap: '1rem', height: 'auto', padding: '1rem 2rem' }}>
         <div style={{display: 'flex', alignItems: 'center', gap: '15px'}}>
           <div style={{ width: 44, height: 44, backgroundColor: 'white', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
             <img src={logoUrl} alt="Sanjeevani Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
@@ -88,7 +88,7 @@ const ReceptionistDashboard = ({ user, onLogout }) => {
           <span style={{color: '#475569'}}>|</span>
           <span style={{fontWeight: 500, color: '#94a3b8'}}>Front Desk Operations</span>
         </div>
-        <div style={{display: 'flex', alignItems: 'center', gap: '20px'}}>
+        <div className="mobile-stack" style={{display: 'flex', alignItems: 'center', gap: '20px'}}>
           <button 
             className="btn btn-primary" 
             style={{padding: '0.5rem 1rem', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600, boxShadow: '0 0 15px rgba(79, 70, 229, 0.5)'}} 
@@ -105,7 +105,7 @@ const ReceptionistDashboard = ({ user, onLogout }) => {
       </div>
 
       <div className="main-content">
-        <div style={{
+        <div className="mobile-stack" style={{
           marginBottom: '2rem', 
           background: 'var(--surface)', 
           borderRadius: '16px', 
@@ -113,6 +113,7 @@ const ReceptionistDashboard = ({ user, onLogout }) => {
           display: 'flex', 
           justifyContent: 'space-between', 
           alignItems: 'center',
+          gap: '1rem',
           boxShadow: '0 10px 40px rgba(15, 23, 42, 0.05)',
           border: '1px solid var(--border)'
         }}>
@@ -121,7 +122,7 @@ const ReceptionistDashboard = ({ user, onLogout }) => {
             <p style={{color: 'var(--text-muted)', margin: 0, fontSize: '0.95rem'}}>Manage clinic operations efficiently.</p>
           </div>
           
-          <div style={{display: 'flex', gap: '1.5rem'}}>
+          <div className="mobile-stack" style={{display: 'flex', gap: '1.5rem'}}>
             <div style={{background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', color: 'white', padding: '1.25rem 2rem', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '1.25rem', boxShadow: '0 10px 25px rgba(15,23,42,0.15)'}}>
               <div style={{background: 'rgba(16, 185, 129, 0.2)', padding: '10px', borderRadius: '10px', color: '#34d399'}}>
                 <TrendingUp size={28} />
@@ -144,7 +145,7 @@ const ReceptionistDashboard = ({ user, onLogout }) => {
           </div>
         </div>
 
-        <div className="grid" style={{gridTemplateColumns: '1fr 3fr', gap: '2rem', alignItems: 'start'}}>
+        <div className="grid grid-responsive-2" style={{gridTemplateColumns: '1fr 3fr', gap: '2rem', alignItems: 'start'}}>
           <div className="card" style={{position: 'sticky', top: '5rem'}}>
             <div className="card-header">
               <h2>Smart Registration</h2>
@@ -223,6 +224,7 @@ const ReceptionistDashboard = ({ user, onLogout }) => {
               <div className="card-header" style={{padding: '1.5rem 1.5rem 0 1.5rem', border: 'none', marginBottom: '1rem'}}>
                 <h2>Live Queue Management</h2>
               </div>
+              <div className="table-responsive">
               <table className="data-table">
                 <thead>
                   <tr>
@@ -272,6 +274,7 @@ const ReceptionistDashboard = ({ user, onLogout }) => {
                   }) : <tr><td colSpan="4" style={{textAlign: 'center', padding: '2rem'}}>No appointments booked yet.</td></tr>}
                 </tbody>
               </table>
+              </div>
             </div>
             
             <div className="card" style={{padding: 0, overflow: 'hidden'}}>
@@ -287,7 +290,7 @@ const ReceptionistDashboard = ({ user, onLogout }) => {
                 />
               </div>
               
-              <div style={{maxHeight: '400px', overflowY: 'auto'}}>
+              <div className="table-responsive" style={{maxHeight: '400px', overflowY: 'auto'}}>
                 <table className="data-table">
                   <thead style={{position: 'sticky', top: 0, background: '#f8fafc'}}>
                     <tr>
@@ -326,7 +329,7 @@ const ReceptionistDashboard = ({ user, onLogout }) => {
                 <h2>Pending Billing & Invoices</h2>
               </div>
               
-              <div style={{maxHeight: '300px', overflowY: 'auto'}}>
+              <div className="table-responsive" style={{maxHeight: '300px', overflowY: 'auto'}}>
                 <table className="data-table">
                   <thead style={{position: 'sticky', top: 0, background: '#f8fafc'}}>
                     <tr>
