@@ -1,0 +1,5 @@
+[
+  { "id": "a1", "patientId": "p2", "doctorId": "d1", "clinicId": "c1", "date": "2026-06-19", "token": 1, "status": "waiting", "reason": "Fever and cough" },
+  { "id": "a2", "patientId": "p3", "doctorId": "d2", "clinicId": "c1", "date": "2026-06-19", "token": 2, "status": "in-consultation", "reason": "Severe back pain" },
+  { "id": "a3", "patientId": "p4", "doctorId": "d3", "clinicId": "c1", "date": "2026-06-19", "token": 3, "status": "waiting", "reason": "Routine checkup" }
+]

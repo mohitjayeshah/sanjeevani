@@ -1,0 +1,9 @@
+[
+  { "id": "d2", "role": "doctor", "name": "Dr. Vikram Singh (OPD 2)", "mobile": "9876543220", "clinicId": "c1" },
+  { "id": "d3", "role": "doctor", "name": "Dr. Neha Gupta (OPD 3)", "mobile": "9876543230", "clinicId": "c1" },
+  { "id": "r2", "role": "receptionist", "name": "Rahul Kumar", "mobile": "9876543212", "clinicId": "c1" },
+  { "id": "r3", "role": "receptionist", "name": "Sneha Reddy", "mobile": "9876543213", "clinicId": "c1" },
+  { "id": "p2", "role": "patient", "name": "Amit Patel", "mobile": "9988776655", "clinicId": "c1" },
+  { "id": "p3", "role": "patient", "name": "Anjali Desai", "mobile": "9988776656", "clinicId": "c1" },
+  { "id": "p4", "role": "patient", "name": "Rohan Mehta", "mobile": "9988776657", "clinicId": "c1" }
+]

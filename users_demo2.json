@@ -1,0 +1,5 @@
+[
+  { "id": "p5", "role": "patient", "name": "Rahul Jain", "mobile": "9988776658", "clinicId": "c1" },
+  { "id": "p6", "role": "patient", "name": "Priya Sharma", "mobile": "9988776659", "clinicId": "c1" },
+  { "id": "p7", "role": "patient", "name": "Vikash Yadav", "mobile": "9988776660", "clinicId": "c1" }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "id": "d1",
+    "role": "doctor",
+    "name": "Dr. Arun Sharma",
+    "email": "arun@sanjeevani.com",
+    "mobile": "9876543210",
+    "clinicId": "c1"
+  },
+  {
+    "id": "r1",
+    "role": "receptionist",
+    "name": "Priya Patel",
+    "email": "priya@sanjeevani.com",
+    "mobile": "9876543211",
+    "clinicId": "c1"
+  }
+]

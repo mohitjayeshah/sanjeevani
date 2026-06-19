@@ -1,0 +1,5 @@
+[
+  { "id": "a4", "patientId": "p5", "doctorId": "d1", "clinicId": "c1", "date": "2026-06-19", "token": 4, "status": "waiting", "reason": "Follow up for fever" },
+  { "id": "a5", "patientId": "p6", "doctorId": "d2", "clinicId": "c1", "date": "2026-06-19", "token": 5, "status": "waiting", "reason": "High blood pressure check" },
+  { "id": "a6", "patientId": "p7", "doctorId": "d3", "clinicId": "c1", "date": "2026-06-19", "token": 6, "status": "waiting", "reason": "Knee pain consultation" }
+]
