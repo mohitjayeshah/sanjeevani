@@ -71,47 +71,124 @@ const Login = ({ onLogin }) => {
           alignItems: 'center', justifyContent: 'center', color: 'white', overflow: 'hidden',
           animation: isFadingOut ? 'fadeOut 0.5s ease forwards' : 'none'
         }}>
-          {/* Animated Background Elements */}
-          <div style={{ position: 'absolute', top: '20%', left: '20%', width: '300px', height: '300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%)', animation: 'pulse 3s infinite alternate' }}></div>
-          <div style={{ position: 'absolute', bottom: '10%', right: '10%', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(16,185,129,0.3) 0%, rgba(255,255,255,0) 70%)', animation: 'pulse 4s infinite alternate-reverse' }}></div>
+          {/* Giant Blurred Background Logo */}
+          <img 
+            src={logoUrl} 
+            alt="Background Watermark" 
+            style={{ 
+              position: 'absolute', 
+              top: '50%', 
+              left: '50%', 
+              transform: 'translate(-50%, -50%)',
+              width: '100%', 
+              height: '100%', 
+              objectFit: 'contain', 
+              opacity: 0.25, 
+              filter: 'blur(2px)',
+              mixBlendMode: 'multiply',
+              pointerEvents: 'none',
+              zIndex: 0
+            }} 
+          />
 
-          {/* Central Logo Container */}
+          {/* Animated Background Elements */}
+          <div style={{ position: 'absolute', top: '20%', left: '20%', width: '300px', height: '300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%)', animation: 'pulse 3s infinite alternate', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', bottom: '10%', right: '10%', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(16,185,129,0.3) 0%, rgba(255,255,255,0) 70%)', animation: 'pulse 4s infinite alternate-reverse', zIndex: 0 }}></div>
+          {/* Central Container */}
           <div style={{ zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', animation: 'fadeInUp 1s ease forwards' }}>
-            <div style={{ 
-              width: '120px', height: '120px', backgroundColor: 'white', borderRadius: '24px', 
-              padding: '16px', boxShadow: '0 20px 40px rgba(0,0,0,0.2)', marginBottom: '1.5rem',
-              animation: 'scaleIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards' 
-            }}>
-              <img src={logoUrl} alt="Sanjeevani Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-            </div>
-            <h1 style={{ margin: 0, fontSize: '3.5rem', fontWeight: 800, letterSpacing: '0.05em', textShadow: '0 4px 10px rgba(0,0,0,0.3)' }}>SANJEEVANI</h1>
-            <p style={{ margin: '0.5rem 0 0 0', fontSize: '1.2rem', color: '#e0f2fe', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>Smart Clinic Ecosystem</p>
             
-            <div style={{ marginTop: '3rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              marginTop: '4rem'
+            }}>
+              
+              {/* Premium Typography */}
+              <div style={{ 
+                textAlign: 'center', 
+                animation: 'fadeInUp 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                animationDelay: '0.4s',
+                opacity: 0,
+                transform: 'translateY(20px)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+              }}>
+                <p style={{ 
+                  margin: 0, 
+                  fontSize: '1rem', 
+                  color: '#a7f3d0', 
+                  textTransform: 'uppercase', 
+                  letterSpacing: '0.3em', 
+                  fontWeight: 600, 
+                  marginBottom: '1rem',
+                  textShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                }}>
+                  Welcome To
+                </p>
+                <h2 style={{ 
+                  margin: 0, 
+                  fontSize: '4rem', 
+                  fontWeight: 800, 
+                  color: '#ffffff', 
+                  letterSpacing: '-0.02em', 
+                  textShadow: '0 10px 30px rgba(0,0,0,0.3)',
+                  marginBottom: '1rem'
+                }}>
+                  Sanjeevani
+                </h2>
+                
+                {/* Glowing Green Divider */}
+                <div style={{ 
+                  width: '40px', height: '4px', background: '#10b981', borderRadius: '2px', 
+                  marginBottom: '3rem', boxShadow: '0 0 15px #10b981',
+                  animation: 'scaleIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                  animationDelay: '0.8s',
+                  transform: 'scaleX(0)'
+                }} />
+              </div>
+
+              {/* Glassmorphic Log In Button */}
               <button 
                 onClick={handleSplashLoginClick}
                 style={{
-                  padding: '12px 40px',
-                  fontSize: '1.15rem',
+                  padding: '16px 48px',
+                  fontSize: '1.1rem',
                   fontWeight: 700,
-                  color: '#0f766e',
-                  backgroundColor: 'white',
+                  color: '#ffffff',
+                  backgroundColor: '#10b981', // Vivid green button inside the glass card looks incredible
                   border: 'none',
-                  borderRadius: '30px',
+                  borderRadius: '50px',
                   cursor: 'pointer',
-                  boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
+                  boxShadow: '0 10px 30px rgba(16, 185, 129, 0.4)',
                   animation: 'fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
                   animationDelay: '1s',
                   opacity: 0,
                   transform: 'translateY(20px)',
-                  transition: 'all 0.2s ease',
-                  letterSpacing: '0.05em',
-                  textTransform: 'uppercase'
+                  transition: 'all 0.3s ease',
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  zIndex: 1
                 }}
-                onMouseOver={e => { e.currentTarget.style.transform = 'translateY(0) scale(1.05)'; e.currentTarget.style.boxShadow = '0 15px 35px rgba(0,0,0,0.3)'; e.currentTarget.style.backgroundColor = '#f0fdfa'; }}
-                onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0) scale(1)'; e.currentTarget.style.boxShadow = '0 10px 25px rgba(0,0,0,0.2)'; e.currentTarget.style.backgroundColor = 'white'; }}
+                onMouseOver={e => { 
+                  e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)'; 
+                  e.currentTarget.style.boxShadow = '0 15px 40px rgba(16, 185, 129, 0.6)'; 
+                  e.currentTarget.style.backgroundColor = '#059669'; 
+                }}
+                onMouseOut={e => { 
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)'; 
+                  e.currentTarget.style.boxShadow = '0 10px 30px rgba(16, 185, 129, 0.4)'; 
+                  e.currentTarget.style.backgroundColor = '#10b981'; 
+                }}
               >
-                Log In
+                Log In 
+                <span style={{ fontSize: '1.3rem', transition: 'transform 0.3s ease' }} onMouseOver={e => e.currentTarget.style.transform = 'translateX(5px)'} onMouseOut={e => e.currentTarget.style.transform = 'translateX(0)'}>
+                  →
+                </span>
               </button>
             </div>
           </div>
